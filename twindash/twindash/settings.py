@@ -25,7 +25,7 @@ SECRET_KEY = 'fkk3irg9%&wiqdu3-6!!rupj^bmql++32#@#a6=*@dzss)mpn&'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['*']
 
 
 # Application definition
@@ -119,3 +119,6 @@ USE_TZ = False
 # https://docs.djangoproject.com/en/2.2/howto/static-files/
 
 STATIC_URL = '/static/'
+
+# https://help.pythonanywhere.com/pages/DjangoStaticFiles
+STATIC_ROOT = '/home/parnalte/twins-dashboard/twindash/static'
