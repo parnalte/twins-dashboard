@@ -16,8 +16,10 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path, include
 
+from twinsapp import views
 
 urlpatterns = [
+    path('', views.index, name='home'),
     path('twinsapp/', include('twinsapp.urls')),
 #    path('', include('twinsapp.urls')),
     path('admin/', admin.site.urls),
