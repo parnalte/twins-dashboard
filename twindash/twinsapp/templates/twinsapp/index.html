@@ -1,0 +1,36 @@
+
+{% extends "twinsapp/base.html" %}
+
+{% block content %}
+
+<a href="/admin/twinsapp/toma/add" class="w3-button w3-black">Nueva toma</a>
+
+{% if latest_tomas_list %}
+  <table class="w3-table-all" style="width:80%">
+    <tr>
+      <th>Bebé</th>
+      <th>Fecha</th>
+      <th>Hora</th>
+      <th>Bibe - Artificial (ml)</th>
+      <th>Bibe - Materna (ml)</th>
+      <th>Toma teta?</th>
+      <th>Cantidad teta</th>
+      <th>Comentario</th>
+    </tr>
+    {% for toma in latest_tomas_list %}
+    <tr>
+      <td>{{toma.bebe.nombre}}</td>
+      <td>{{toma.fecha | date:"D, d M Y"}}</td>
+      <td>{{toma.fecha | time:"H:i"}}</td>
+      <td>{{toma.cantidad_artificial | floatformat}}</td>
+      <td>{{toma.cantidad_materna | floatformat}}</td>
+      <td>{{toma.toma_teta | yesno}}</td>
+      <td>{{toma.valor_teta | default_if_none:""}}</td>
+      <td>{{toma.comentario | default_if_none:""}}</td>
+    <tr>
+    {% endfor %}
+
+{% else %}
+    <p>No hay ninguna toma.</p>
+{% endif %}
+{% endblock %}
