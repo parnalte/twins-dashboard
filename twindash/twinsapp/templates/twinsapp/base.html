@@ -11,9 +11,10 @@
     <div id="sidebar" class="w3-sidebar w3-light-grey w3-bar-block" style="width:10%">
         {% block sidebar %}
         <h3 class="w3-bar-item">Menu</h3>
-        <a href="/twinsapp/" class="w3-bar-item w3-button">Home</a>
-        <a href="/twinsapp/bebe/MAIA" class="w3-bar-item w3-button">MAIA</a>
-        <a href="/twinsapp/bebe/VEGA" class="w3-bar-item w3-button">VEGA</a>
+        <a href="{% url 'twinsapp:index' %}" class="w3-bar-item w3-button">Home</a>
+          {% for bebe in bebe_list %}
+            <a href="{% url 'twinsapp:main_bebe' bebe.nombre %}" class="w3-bar-item w3-button">{{ bebe.nombre }}</a>
+            {% endfor %}
         {% endblock %}
     </div>
 
