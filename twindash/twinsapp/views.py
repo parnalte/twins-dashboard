@@ -24,8 +24,33 @@ def index(request):
 @login_required(login_url='/admin/login/')
 def main_bebe(request, nombre_bebe):
     bebe = get_object_or_404(Bebe, nombre=nombre_bebe)
-    return HttpResponse("You are looking at main landing page for bebe {}, with id {}"
-                        .format(bebe.nombre, bebe.id))
+    lista_bebes = Bebe.objects.all()
+    dia_hoy = datetime.date.today()
+
+    tomas_bebe_hoy = Toma.objects.filter(fecha__date=dia_hoy, bebe = bebe)
+    n_tomas_hoy = tomas_bebe_hoy.count()
+    cantidad_bibe_hoy = (
+        sum([x['cantidad_artificial'] for x in tomas_bebe_hoy.values()]) +
+        sum([x['cantidad_materna'] for x in tomas_bebe_hoy.values()]) )
+    n_tomas_teta_hoy = tomas_bebe_hoy.filter(toma_teta=True).count()
+
+    cambios_bebe_hoy = Cambio.objects.filter(fecha__date=dia_hoy, bebe = bebe)
+    n_cambios_hoy = cambios_bebe_hoy.count()
+    ultimo_cambio_caca = Cambio.objects.filter(caca=True, bebe=bebe).order_by("fecha").last()
+
+    context = {
+        'bebe': bebe,
+        'bebe_list': lista_bebes,
+        'hoy': dia_hoy,
+        'latest_tomas_list': tomas_bebe_hoy,
+        'n_tomas': n_tomas_hoy,
+        'cantidad_bibe': cantidad_bibe_hoy,
+        'n_tomas_teta': n_tomas_teta_hoy,
+        'latest_cambios_list': cambios_bebe_hoy,
+        'n_cambios': n_cambios_hoy,
+        'ultima_caca': ultimo_cambio_caca,
+    }
+    return render(request, 'twinsapp/bebe.html', context)
 
 
 @login_required(login_url='/admin/login/')

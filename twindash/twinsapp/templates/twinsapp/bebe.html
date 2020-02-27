@@ -1,0 +1,112 @@
+{% extends "twinsapp/base.html" %}
+
+{% block header %} {{bebe.nombre}} {% endblock %}
+
+{% block content %}
+
+<div id="resumen" class="w3-container w3-gray" >
+  <h2> Resumen de hoy ({{ hoy | date:"D, d M Y"}}) </h2>
+</div>
+
+
+<div class='w3-container'>
+  <br>
+ <div class="w3-container w3-cyan w3-cell w3-card">
+   <p>{{n_tomas}} tomas hoy en total ({{n_tomas_teta}} con teta)</p>
+   <p>Cantidad bibe total: {{cantidad_bibe}} ml </p>
+ </div>
+<div class="w3-container w3-cell"></div>
+ <div class="w3-container w3-sand w3-cell w3-card">
+   <p>{{n_cambios}} cambios de pañal hoy.</p>
+   <p>Última caca: {{ultima_caca.fecha | date:"D, d M Y, H:i"}}
+ </div>
+<br>
+</div>
+
+
+
+
+
+<div id="tomas" class="w3-container w3-gray" >
+  <h2> Tomas hoy </h2>
+</div>
+
+<div class="w3-container" >
+  <br>
+  <a href="/admin/twinsapp/toma/add" class="w3-button w3-black">Nueva toma</a>
+  <a href="/admin/twinsapp/toma" class="w3-button w3-khaki"> Ver todas las tomas</a>
+
+  {% if latest_tomas_list %}
+    <table class="w3-table-all" style="width:80%">
+      <tr>
+        <th>Bebé</th>
+        <th>Fecha</th>
+        <th>Hora</th>
+        <th>Bibe - Artificial (ml)</th>
+        <th>Bibe - Materna (ml)</th>
+        <th>Toma teta?</th>
+        <th>Cantidad teta</th>
+        <th>Comentario</th>
+        <th></th>
+      </tr>
+      {% for toma in latest_tomas_list %}
+      <tr>
+        <td>{{toma.bebe.nombre}}</td>
+        <td>{{toma.fecha | date:"D, d M Y"}}</td>
+        <td>{{toma.fecha | time:"H:i"}}</td>
+        <td>{{toma.cantidad_artificial | floatformat}}</td>
+        <td>{{toma.cantidad_materna | floatformat}}</td>
+        <td>{{toma.toma_teta | yesno}}</td>
+        <td>{{toma.valor_teta | default_if_none:""}}</td>
+        <td>{{toma.comentario | default_if_none:""}}</td>
+        <td><a href="/admin/twinsapp/toma/{{toma.id}}">Editar</a>
+        <tr>
+      {% endfor %}
+      </table>
+
+  {% else %}
+    <p>No hay ninguna toma.</p>
+  {% endif %}
+
+</div>
+<br>
+<div id="cambios" class="w3-container w3-gray" >
+  <h2> Cambios de pañal hoy</h2>
+</div>
+
+<div class="w3-container" >
+
+  <br>
+  <a href="/admin/twinsapp/cambio/add" class="w3-button w3-black">Nuevo cambio de pañal</a>
+  <a href="/admin/twinsapp/cambio" class="w3-button w3-khaki"> Ver todos los cambios de pañal</a>
+  {% if latest_cambios_list %}
+    <table class="w3-table-all" style="width:80%">
+      <tr>
+        <th>Bebé</th>
+        <th>Fecha</th>
+        <th>Hora</th>
+        <th>Pipí</th>
+        <th>Caca</th>
+        <th>Comentario</th>
+        <th></th>
+      </tr>
+      {% for cambio in latest_cambios_list %}
+      <tr>
+        <td>{{cambio.bebe.nombre}}</td>
+        <td>{{cambio.fecha | date:"D, d M Y"}}</td>
+        <td>{{cambio.fecha | time:"H:i"}}</td>
+        <td>{{cambio.pipi | yesno}}</td>
+        <td>{{cambio.caca | yesno}}</td>
+        <td>{{cambio.comentario | default_if_none:""}}</td>
+        <td><a href="/admin/twinsapp/cambio/{{cambio.id}}">Editar</a>
+        <tr>
+      {% endfor %}
+      </table>
+
+  {% else %}
+    <p>No hay ningún cambio de pañal.</p>
+  {% endif %}
+</div>
+
+
+{% endblock %}
