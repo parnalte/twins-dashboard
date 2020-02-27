@@ -2,7 +2,7 @@ from django.shortcuts import render, get_object_or_404
 from django.http import HttpResponse
 from django.contrib.auth.decorators import login_required
 
-from .models import Bebe, Toma
+from .models import Bebe, Toma, Cambio
 
 import datetime
 
@@ -10,8 +10,14 @@ import datetime
 # Create your views here.
 @login_required(login_url='/admin/login/')
 def index(request):
-    ultimas_tomas = Toma.objects.order_by("-fecha")
-    context = {'latest_tomas_list': ultimas_tomas}
+    ultimas_tomas = Toma.objects.order_by("-fecha")[:10]
+    ultimos_cambios = Cambio.objects.order_by("-fecha")[:10]
+    lista_bebes = Bebe.objects.all()
+    context = {
+        'latest_tomas_list': ultimas_tomas,
+        'latest_cambios_list': ultimos_cambios,
+        'bebe_list': lista_bebes
+        }
     return render(request, 'twinsapp/index.html', context)
 
 
