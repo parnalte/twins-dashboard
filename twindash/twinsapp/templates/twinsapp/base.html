@@ -3,14 +3,16 @@
 
 <html lang="es">
 <head>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" type="text/css" href="{% static 'twinsapp/w3.css' %}">
     <title>{% block title %} Maia & Vega {% endblock %}</title>
 </head>
 
 <body>
-    <div id="sidebar" class="w3-sidebar w3-light-grey w3-bar-block" style="width:10%">
+    <div id="mySidebar" class="w3-sidebar w3-light-grey w3-bar-block w3-border-right"
+          style="display:none">
+        <button onclick="w3_close()" class="w3-bar-item w3-large">Cerrar &times;</button>
         {% block sidebar %}
-        <h3 class="w3-bar-item">Menu</h3>
         <a href="{% url 'twinsapp:index' %}" class="w3-bar-item w3-button">Home</a>
           {% for bebe in bebe_list %}
             <a href="{% url 'twinsapp:main_bebe' bebe.nombre %}" class="w3-bar-item w3-button">{{ bebe.nombre }}</a>
@@ -18,16 +20,33 @@
         {% endblock %}
     </div>
 
-    <div style="margin-left:10%">
 
-    <div id="header" class="w3-container w3-teal" >
+
+    <div id="header" class="w3-teal" >
+      <div class="w3-cell w3-cell-middle">
+      <button class="w3-button w3-teal w3-xlarge" onclick="w3_open()">☰</button>
+    </div>
+      <div class="w3-container w3-cell w3-cell-middle">
       <h1>{% block header %} Maia & Vega {% endblock %}</h1>
+    </div>
     </div>
 
     <div id="content">
         {% block content %}{% endblock %}
     </div>
 
-    </div>
+
+
+
+    <script>
+    function w3_open() {
+      document.getElementById("mySidebar").style.display = "block";
+    }
+
+    function w3_close() {
+      document.getElementById("mySidebar").style.display = "none";
+    }
+    </script>
+
 </body>
 </html>
