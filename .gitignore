@@ -1,3 +1,6 @@
+# Added by myself
+db.sqlite3.bk
+
 # Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[cod]
