@@ -5,20 +5,31 @@
 {% block content %}
 
 <div id="resumen" class="w3-container w3-gray" >
-  <h2> Resumen de hoy ({{ hoy | date:"D, d M Y"}}) </h2>
+  <h2> Resumen día {{ fecha | date:"D, d M Y"}} {% if es_hoy %}(hoy){% endif %} </h2>
 </div>
 
+<div class="w3-bar w3-border w3-round">
+  <a href="{% url 'twinsapp:bebe_dia' bebe.nombre fecha_anterior.year fecha_anterior.month fecha_anterior.day %}"
+      class="w3-button">&#10094; {{fecha_anterior | date:"d/m/Y"}}</a>
+  {% if es_hoy %}
+  {% else %}
+  <a href="{% url 'twinsapp:bebe_dia' bebe.nombre fecha_posterior.year fecha_posterior.month fecha_posterior.day %}"
+      class="w3-button w3-right">{{fecha_posterior | date:"d/m/Y"}} &#10095;</a>
+  {% endif %}
+</div>
 
 <div class='w3-container'>
   <br>
  <div class="w3-container w3-cyan w3-cell w3-card">
-   <p>{{n_tomas}} tomas hoy en total ({{n_tomas_teta}} con teta)</p>
+   <p>{{n_tomas}} tomas en el día en total ({{n_tomas_teta}} con teta)</p>
    <p>Cantidad bibe total: {{cantidad_bibe}} ml </p>
  </div>
 <div class="w3-container w3-cell"></div>
  <div class="w3-container w3-sand w3-cell w3-card">
-   <p>{{n_cambios}} cambios de pañal hoy.</p>
+   <p>{{n_cambios}} cambios de pañal en el día ({{n_cambios_caca}} con caca)</p>
+   {% if es_hoy %}
    <p>Última caca: {{ultima_caca.fecha | date:"D, d M Y, H:i"}}
+   {% endif %}
  </div>
 <br>
 </div>
@@ -27,8 +38,8 @@
 
 
 
-<div id="tomas" class="w3-container w3-gray" >
-  <h2> Tomas hoy </h2>
+<div id="tomas" class="w3-container w3-light-gray" >
+  <h3> Tomas </h3>
 </div>
 
 <div class="w3-container" >
@@ -70,8 +81,8 @@
 
 </div>
 <br>
-<div id="cambios" class="w3-container w3-gray" >
-  <h2> Cambios de pañal hoy</h2>
+<div id="cambios" class="w3-container w3-light-gray" >
+  <h3> Cambios de pañal</h3>
 </div>
 
 <div class="w3-container" >
