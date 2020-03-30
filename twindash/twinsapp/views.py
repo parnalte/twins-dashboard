@@ -3,6 +3,7 @@ from django.http import HttpResponse
 from django.contrib.auth.decorators import login_required
 
 from .models import Bebe, Toma, Cambio
+from .plots import plot_resumen_tomas
 
 import datetime
 
@@ -62,8 +63,18 @@ def bebe_dia(request, nombre_bebe, year, month, day):
     return render(request, 'twinsapp/bebe_dia.html', context)
 
 
-
 @login_required(login_url='/admin/login/')
 def main_bebe(request, nombre_bebe):
     dia_hoy = datetime.date.today()
     return bebe_dia(request, nombre_bebe, dia_hoy.year, dia_hoy.month, dia_hoy.day)
+
+@login_required(login_url='/admin/login/')
+def resumen_tomas(request):
+    lista_bebes = Bebe.objects.all()
+    script_plot, div_plot = plot_resumen_tomas()
+    context = {
+        'bebe_list': lista_bebes,
+        'script_plot': script_plot,
+        'div_plot': div_plot,
+    }
+    return render(request, 'twinsapp/resumen_tomas.html', context)
