@@ -3,7 +3,7 @@ from django.http import HttpResponse
 from django.contrib.auth.decorators import login_required
 
 from .models import Bebe, Toma, Cambio
-from .plots import plot_resumen_tomas
+from .plots import plot_resumen_tomas, plot_bebe_dia
 
 import datetime
 
@@ -44,6 +44,9 @@ def bebe_dia(request, nombre_bebe, year, month, day):
     es_hoy = (fecha == dia_hoy)
     fecha_anterior = fecha - datetime.timedelta(days=1)
     fecha_posterior = fecha + datetime.timedelta(days=1)
+
+    script_plot, div_plot = plot_bebe_dia(bebe, fecha)
+
     context = {
         'bebe': bebe,
         'bebe_list': lista_bebes,
@@ -59,6 +62,8 @@ def bebe_dia(request, nombre_bebe, year, month, day):
         'n_cambios': n_cambios_hoy,
         'n_cambios_caca': n_cambios_hoy_caca,
         'ultima_caca': ultimo_cambio_caca,
+        'script_plot': script_plot,
+        'div_plot': div_plot,
     }
     return render(request, 'twinsapp/bebe_dia.html', context)
 
