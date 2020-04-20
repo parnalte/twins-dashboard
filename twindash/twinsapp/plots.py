@@ -74,7 +74,8 @@ def plot_bebe_dia(bebe, fecha):
 
     # Now, crete the plot
     p = bplot.figure(x_axis_label='Hora', y_axis_label='Cantidad bibes (ml)',
-                     x_axis_type="datetime", plot_width=900, plot_height=350,)
+                     x_axis_type="datetime", plot_width=900, plot_height=350,
+                     sizing_mode='scale_width')
 
     p.line(x=tomas_previous.index,
            y=tomas_previous.mean(axis=1),
